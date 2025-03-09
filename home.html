@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jamsub - Home</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #ddd;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 400px;
+            margin: 20px auto;
+            text-align: center;
+        }
+
+        /* Profile Section */
+        .profile {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .profile img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .profile h2 {
+            font-size: 16px;
+            margin: 0;
+            color: #6a0dad;
+        }
+
+        /* Balance Card */
+        .balance-card {
+            background: #6a0dad;
+            color: white;
+            padding: 20px;
+            border-radius: 12px;
+            position: relative;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .balance-card h2 {
+            font-size: 16px;
+            margin: 0;
+        }
+
+        .balance-card .balance {
+            font-size: 24px;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+
+        .fund-wallet {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            padding: 10px;
+            color: white;
+            border-radius: 20px;
+            width: 100%;
+            cursor: pointer;
+        }
+
+        /* Quick Actions */
+        .quick-actions {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            gap: 10px;
+        }
+
+        .action {
+            background: #fff;
+            width: 80px;
+            height: 80px;
+            border-radius: 12px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: #6a0dad;
+            font-size: 12px;
+            cursor: pointer;
+            box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .action img {
+            width: 30px;
+            height: 30px;
+            margin-bottom: 5px;
+        }
+
+        /* Recent Activity */
+        .recent-activity {
+            text-align: left;
+            font-size: 14px;
+            margin-top: 20px;
+        }
+
+        .recent-activity a {
+            float: right;
+            color: #6a0dad;
+            text-decoration: none;
+        }
+
+        /* No Recent Activity */
+        .no-activity {
+            text-align: center;
+            color: gray;
+            margin-top: 20px;
+        }
+
+        /* Transactions Table */
+        .transaction-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        .transaction-table th, .transaction-table td {
+            padding: 8px;
+            border-bottom: 1px solid #ddd;
+            text-align: left;
+            font-size: 12px;
+        }
+
+        .transaction-table th {
+            background-color: #6a0dad;
+            color: white;
+        }
+
+        .quick-actions a {
+            text-decoration: none; /* Removes the underline */
+        }
+    </style>
+
+    <!-- Lottie Animation Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.9.6/lottie.min.js"></script>
+</head>
+<body>
+
+    <div class="container">
+        <!-- Profile Section -->
+        <div class="profile">
+            <img src="/Images/images - 2025-02-25T011641.083.jpeg" alt="User Avatar">
+            <h2 id="userName">Hello, User</h2>
+        </div>
+
+        <!-- Balance Card -->
+        <div class="balance-card">
+            <h2>Total Balance</h2>
+            <div class="balance" id="userBalance">₦0.00</div>
+            <button class="fund-wallet" onclick="window.location.href='fund-amount.html'">Fund Wallet</button>
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="quick-actions">
+            <a href="airtime.html" class="action">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTW5FgYkH8vZBIN8OJ85YS69Us87wwcFUTqjQ&usqp=CAU" alt="Airtime">
+                Airtime
+            </a>
+            <a href="data.html" class="action">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTdtNOb_wKdzYcOsw3suCuThVAlLqOYbgACsg&usqp=CAU" alt="Data">
+                Data
+            </a>
+            <a href="cable.html" class="action">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQwoX2dpnWleYqq2sUFK-2x8ZbtOXP5SRXOXg&s" alt="Cable TV">
+                CableTV
+            </a>
+            <a href="index.html" class="action">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTBmHG-yYoyG_gw46pIjsPOHRkw8a0I6hPqDQ&usqp=CAU" alt="Log out">
+                Logout
+            </a>
+        </div>
+
+        <!-- Recent Activity -->
+        <div class="recent-activity">
+            <span>Recent Activity</span>
+            <a href="#">See all</a>
+        </div>
+
+        <!-- Transactions / No Recent Activity -->
+        <div id="transactionsContainer">
+            <div id="noActivity" class="no-activity" style="display: none;">
+                <div id="lottieContainer" style="width: 150px; height: 150px; margin: auto; opacity: 0.5;"></div>
+                <p>No recent activity yet</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const storedUser = localStorage.getItem("fullName");
+            if (storedUser) {
+                document.getElementById("userName").textContent = "Hello, " + storedUser;
+            }
+
+            // Load transactions
+            const transactionsContainer = document.getElementById("transactionsContainer");
+            const noActivity = document.getElementById("noActivity");
+            const transactions = JSON.parse(localStorage.getItem("recent-transactions")) || [];
+
+            if (transactions.length === 0) {
+                noActivity.style.display = "block"; // Show animation if no transactions
+
+                // Load Lottie animation
+                lottie.loadAnimation({
+                    container: document.getElementById("lottieContainer"),
+                    renderer: "svg",
+                    loop: true,
+                    autoplay: true,
+                    path: "/Lottie/Animation - 1740467107076 (1).json"
+                });
+            } else {
+                noActivity.style.display = "none"; // Hide animation if transactions exist
+
+                let tableHTML = `
+                    <table class="transaction-table">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Type</th>
+                                <th>Amount</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                `;
+
+                transactions.forEach(tx => {
+                    tableHTML += `
+                        <tr>
+                            <td>${tx.date}</td>
+                            <td>${tx.type}</td>
+                            <td>₦${tx.amount}</td>
+                            <td>${tx.status}</td>
+                        </tr>
+                    `;
+                });
+
+                tableHTML += `</tbody></table>`;
+                transactionsContainer.innerHTML = tableHTML;
+            }
+        });
+    </script>
+
+</body>
+</html>

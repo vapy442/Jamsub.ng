@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Subscription - Jamsub</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #ddd;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 400px;
+            margin-top: 20px;
+        }
+
+        h2 {
+            color: #6a0dad;
+            text-align: center;
+        }
+
+        .network-box {
+            background: white;
+            padding: 15px;
+            border-radius: 12px;
+            box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .network-box p {
+            font-size: 14px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .network-options {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+        }
+
+        .network {
+            flex: 1;
+            padding: 10px;
+            border-radius: 8px;
+            text-align: center;
+            cursor: pointer;
+            border: 2px solid transparent;
+            background-color: #f5f5f5;
+        }
+
+        .network img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            border: 2px solid transparent;
+            padding: 5px;
+        }
+
+        .network.selected img {
+            border-color: #6a0dad;
+            background-color: #e6d5f7;
+        }
+
+        .form-box {
+            background: white;
+            padding: 15px;
+            border-radius: 12px;
+            box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+            margin-top: 15px;
+            text-align: left;
+        }
+
+        .form-box label {
+            font-size: 14px;
+            font-weight: bold;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .form-box input {
+            width: 92.3%;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            outline: none;
+            }
+            
+            .form-box select {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            outline: none;
+        }
+
+        .form-box input:focus, .form-box select:focus {
+            border-color: #6a0dad;
+        }
+
+        .error-text {
+            color: red;
+            font-size: 13px;
+            margin-top: 5px;
+            display: none;
+        }
+
+        .proceed-btn {
+            width: 100%;
+            padding: 12px;
+            font-size: 16px;
+            background: #6a0dad;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            margin-top: 15px;
+        }
+
+        .proceed-btn:disabled {
+            background: #999;
+            cursor: not-allowed;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2>Buy Data</h2>
+
+        <div class="network-box">
+            <p>Select Network</p>
+            <div class="network-options">
+                <div class="network" onclick="selectNetwork('MTN')">
+                    <img src="https://cdn.worldvectorlogo.com/logos/mtn-new-logo.svg" alt="MTN">
+                </div>
+                <div class="network" onclick="selectNetwork('Airtel')">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/3/3a/Airtel_logo-01.png" alt="Airtel">
+                </div>
+                <div class="network" onclick="selectNetwork('Glo')">
+                    <img src="https://static-00.iconduck.com/assets.00/globacom-limited-icon-1024x1024-upx9lebq.png" alt="Glo">
+                </div>
+            </div>
+        </div>
+
+        <div class="form-box">
+            <label for="phone">Phone Number</label>
+            <input type="number" id="phone" placeholder="Enter phone number" oninput="validatePhone()" maxlength="11">
+            <p class="error-text" id="phone-error">Invalid number</p>
+        </div>
+
+        <div class="form-box">
+            <label for="data-plan">Select Data Plan</label>
+            <select id="data-plan" onclick="checkNetworkSelection()" onchange="checkFormCompletion()">
+                <option value="">Select a plan</option>
+            </select>
+            <p class="error-text" id="network-error">Select network</p>
+        </div>
+
+        <button class="proceed-btn" id="proceed-btn" onclick="processDataPurchase()" disabled>Proceed</button>
+
+    </div>
+
+    <script>
+        let selectedNetwork = null;
+
+        function selectNetwork(network) {
+            selectedNetwork = network;
+            let networkOptions = document.querySelectorAll(".network");
+            networkOptions.forEach(option => option.classList.remove("selected"));
+            
+            document.getElementById("network-error").style.display = "none";
+
+            if (network === "MTN") {
+                networkOptions[0].classList.add("selected");
+                updateDataPlans(["SME 1GB - ₦125", "SME 5GB - ₦900", "SME 10GB - ₦1,800", "SME 45GB - ₦5,500"]);
+            } else if (network === "Airtel") {
+                networkOptions[1].classList.add("selected");
+                updateDataPlans(["SME 1GB - ₦110", "SME 5GB - ₦850", "SME 10GB - ₦1,700", "SME 20GB - ₦3,200"]);
+            } else if (network === "Glo") {
+                networkOptions[2].classList.add("selected");
+                updateDataPlans(["GIFTING 1GB - ₦125", "GIFTING 5GB - ₦900", "GIFTING 10GB - ₦1,800", "GIFTING 45GB - ₦5,500"]);
+            }
+            checkFormCompletion();
+        }
+
+        function updateDataPlans(plans) {
+            let dataPlanSelect = document.getElementById("data-plan");
+            dataPlanSelect.innerHTML = '<option value="">Select a plan</option>';
+            plans.forEach(plan => {
+                let option = document.createElement("option");
+                option.textContent = plan;
+                dataPlanSelect.appendChild(option);
+            });
+        }
+
+        function checkNetworkSelection() {
+            if (!selectedNetwork) {
+                document.getElementById("network-error").style.display = "block";
+            }
+        }
+
+        function validatePhone() {
+            let phoneInput = document.getElementById("phone");
+            let phoneError = document.getElementById("phone-error");
+            let validPrefixes = ["070", "080", "081", "090", "091"];
+
+            if (phoneInput.value.length > 11) {
+                phoneInput.value = phoneInput.value.slice(0, 11);
+            }
+
+            if (phoneInput.value.length >= 3) {
+                let isValid = validPrefixes.some(prefix => phoneInput.value.startsWith(prefix));
+                phoneError.style.display = isValid ? "none" : "block";
+            } else {
+                phoneError.style.display = "none";
+            }
+
+            checkFormCompletion();
+        }
+
+        function checkFormCompletion() {
+            let phone = document.getElementById("phone").value;
+            let plan = document.getElementById("data-plan").value;
+            let proceedBtn = document.getElementById("proceed-btn");
+
+            if (selectedNetwork && phone.length === 11 && plan) {
+                proceedBtn.disabled = false;
+            } else {
+                proceedBtn.disabled = true;
+            }
+        }
+
+        function processDataPurchase() {
+            alert("Insufficient Balance");
+        }
+    </script>
+
+</body>
+</html>

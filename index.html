@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Welcome to Jamsub</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bodymovin/5.9.6/lottie.min.js"></script> 
+    <style>
+        /* Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Fullscreen Gradient Background */
+        body {
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to bottom right, #6a0dad, #8e44ad);
+            color: white;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Floating Circles */
+        .circle {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 50%;
+            z-index: -1;
+            animation: floatUp 6s infinite alternate ease-in-out;
+        }
+
+        .circle1 { width: 80px; height: 80px; top: 10%; left: 15%; }
+        .circle2 { width: 100px; height: 100px; top: 50%; left: 75%; }
+        .circle3 { width: 60px; height: 60px; bottom: 12%; left: 20%; }
+        .circle4 { width: 120px; height: 120px; bottom: 18%; right: 10%; }
+
+        @keyframes floatUp {
+            from { transform: translateY(0) rotate(0deg); }
+            to { transform: translateY(-10px) rotate(15deg); }
+        }
+
+        /* Slide-Up Animation */
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Lottie Animation */
+        .animation {
+            width: 160px;
+            height: 160px;
+            margin-bottom: 10px;
+            animation: slideUp 0.8s ease-in-out forwards;
+        }
+
+        /* Text */
+        h1, p, .start-btn, .privacy-link {
+            animation: slideUp 0.8s ease-in-out forwards;
+            opacity: 0;
+        }
+
+        h1 { font-size: 22px; margin-bottom: 8px; animation-delay: 0.2s; }
+        p { font-size: 14px; opacity: 0.9; margin-bottom: 15px; padding: 0 15px; animation-delay: 0.4s; }
+
+        /* Button */
+        .start-btn {
+            background: #ffffff;
+            color: #6a0dad;
+            padding: 10px 20px;
+            font-size: 14px;
+            font-weight: bold;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: transform 0.3s, background 0.3s;
+            animation-delay: 0.6s;
+        }
+
+        .start-btn:hover {
+            background: #e6d5f7;
+            transform: scale(1.05);
+        }
+
+        /* Privacy Policy Text Button */
+        .privacy-link {
+            margin-top: 10px;
+            font-size: 12px;
+            color: #ddd;
+            text-decoration: none;
+            transition: color 0.3s;
+            animation-delay: 0.8s;
+        }
+
+        .privacy-link:hover {
+            color: #ffffff;
+            text-decoration: underline;
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- Floating Circles (Background Only) -->
+    <div class="circle circle1"></div>
+    <div class="circle circle2"></div>
+    <div class="circle circle3"></div>
+    <div class="circle circle4"></div>
+
+    <!-- Lottie Animation -->
+    <div class="animation" id="welcomeAnimation"></div>
+
+    <h1>Welcome to Jamsub</h1>
+    <p>Your all-in-one platform for Data, Airtime, and Bill Payments</p>
+
+    <!-- Start Button -->
+    <button class="start-btn" onclick="window.location.href='indexx.html'">Get Started</button>
+
+    <!-- Privacy Policy Link -->
+    <a href="privacy.html" class="privacy-link">Privacy Policy</a>
+
+    <script>
+        // Load Lottie Animation
+        var animation = lottie.loadAnimation({
+            container: document.getElementById('welcomeAnimation'),
+            renderer: 'svg',
+            loop: true,
+            autoplay: true,
+            path: '/Lottie/Animation - 1740467107076 (1).json' 
+        });
+
+        // Trigger animations after page load
+        window.onload = function() {
+            document.querySelectorAll('h1, p, .start-btn, .privacy-link').forEach(el => {
+                el.style.opacity = '1';
+            });
+        };
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Set Transaction PIN</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            flex-direction: column;
+        }
+
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            width: 280px;
+        }
+
+        h2 {
+            color: #6a0dad;
+            margin-bottom: 20px;
+        }
+
+        .pin-display {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 1px;
+        }
+
+        .pin-box {
+            width: 40px;
+            height: 60px;
+            border: 1px solid #6A0DAD75;
+            text-align: center;
+            font-size: 24px;
+            border-radius: 5px;
+            line-height: 70px;
+            background-color: #f9f9f9;
+        }
+
+        .numpad {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            justify-content: center;
+            align-items: center;
+            margin-left: 20px;
+            margin-top: 50px;
+        }
+
+        .numpad button {
+            width: 60px;
+            height: 60px;
+            font-size: 20px;
+            border: none;
+            border-radius: 5px;
+            background-color: #E6DAF0; /* Light Whitish Purple */
+            color: #6a0dad;
+            cursor: pointer;
+        }
+
+        .numpad button:hover {
+            background-color: #D1C0E5; /* Slightly darker shade */
+        }
+
+        .clear {
+            background-color: #F8B4B4; /* Light Red */
+            color: red;
+        }
+
+        .clear:hover {
+            background-color: #E57373;
+        }
+
+        .zero {
+            grid-column: 2; /* Centers the "0" key */
+        }
+
+        .save {
+            background-color: #B4F8B4; /* Light Green */
+            color: green;
+        }
+
+        .save:hover {
+            background-color: #73E573;
+        }
+
+        .disabled {
+            background-color: #ccc !important;
+            cursor: not-allowed !important;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2>Set Transaction PIN</h2>
+        <div class="pin-display">
+            <div class="pin-box" id="pin1"></div>
+            <div class="pin-box" id="pin2"></div>
+            <div class="pin-box" id="pin3"></div>
+            <div class="pin-box" id="pin4"></div>
+        </div>
+
+        <div class="numpad">
+            <button onclick="enterDigit(1)">1</button>
+            <button onclick="enterDigit(2)">2</button>
+            <button onclick="enterDigit(3)">3</button>
+            <button onclick="enterDigit(4)">4</button>
+            <button onclick="enterDigit(5)">5</button>
+            <button onclick="enterDigit(6)">6</button>
+            <button onclick="enterDigit(7)">7</button>
+            <button onclick="enterDigit(8)">8</button>
+            <button onclick="enterDigit(9)">9</button>
+            <button class="clear" onclick="clearPin()">⌫</button>
+            <button class="zero" onclick="enterDigit(0)">0</button>
+            <button class="save disabled" id="saveBtn" disabled onclick="savePin()">❯</button>
+        </div>
+    </div>
+
+    <script>
+        let pin = [];
+
+        function enterDigit(digit) {
+            if (pin.length < 4) {
+                pin.push(digit);
+                updatePinDisplay();
+            }
+        }
+
+        function updatePinDisplay() {
+    for (let i = 0; i < 4; i++) {
+        document.getElementById('pin' + (i + 1)).innerText = pin[i] !== undefined ? pin[i] : "";
+    }
+    document.getElementById('saveBtn').disabled = pin.length !== 4;
+    document.getElementById('saveBtn').classList.toggle('disabled', pin.length !== 4);
+}
+
+        function clearPin() {
+            pin = [];
+            updatePinDisplay();
+        }
+
+        function savePin() {
+            if (pin.length === 4) {
+                let pinCode = pin.join("");
+                localStorage.setItem("transactionPIN", pinCode);
+                alert("Transaction PIN set successfully!");
+                window.location.href = 'home.html';
+            }
+        }
+    </script>
+
+</body>
+</html>

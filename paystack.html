@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pay with Paystack - Jamsub</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #ddd;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 400px;
+            margin: 20px auto;
+            text-align: center;
+        }
+
+        h2 {
+            color: #6a0dad;
+        }
+
+        .instruction {
+            background: white;
+            padding: 10px 15px;
+            border-radius: 12px;
+            margin-bottom: 15px;
+            box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+            font-size: 14px;
+            line-height: 1.4;
+            text-align: left;
+        }
+
+        /* Crossfade Gradient Animation */
+        .paystack-card {
+            position: relative;
+            color: white;
+            padding: 15px;
+            border-radius: 12px;
+            text-align: left;
+            margin: 20px 0;
+            box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+        }
+
+        /* Gradient Layers */
+        .gradient-layer {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: opacity 4s ease-in-out;
+        }
+
+        .gradient-layer.active {
+            opacity: 1;
+        }
+
+        /* More Gradients with Purple & Blue Variations */
+        .gradient1 { background: linear-gradient(135deg, #6A3AE9, #7100FF); }
+        .gradient2 { background: linear-gradient(135deg, #7D23D3, #2665FF); }
+        .gradient3 { background: linear-gradient(135deg, #4B0082, #AA04E2); }
+        .gradient4 { background: linear-gradient(135deg, #4719CC, #B12BE2); }
+        .gradient5 { background: linear-gradient(135deg, #6a0dad, #b57aff); }
+        .gradient6 { background: linear-gradient(135deg, #3A0E87, #9D01FF); }
+        .gradient7 { background: linear-gradient(135deg, #5d34c5, #8698fb); }
+        .gradient8 { background: linear-gradient(135deg, #4100FF, #7216FF); }
+
+        /* Content inside the card */
+        .content {
+            position: relative;
+            z-index: 2;
+            padding: 10px;
+        }
+
+        .bank-details {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .bank-details img {
+            width: 50px;
+            height: 50px;
+        }
+
+        .account-info {
+            flex: 1;
+        }
+
+        .account-info h3 {
+            margin: 5px 0;
+            font-size: 15px;
+        }
+
+        .account-info p {
+            margin: 0;
+            font-size: 14px;
+        }
+
+        .notice {
+            font-size: 13px;
+            color: gray;
+            margin-top: 10px;
+        }
+
+        .copy-btn {
+            background: white;
+            color: #6a0dad;
+            padding: 8px 12px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 12px;
+            margin-top: 8px;
+        }
+
+        .copy-btn:hover {
+            background: #f3e5ff;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2>Deposit via Paystack</h2>
+
+        <!-- Instruction Section -->
+        <div class="instruction">
+            Deposit a minimum of <strong>₦1,000</strong> to the account details below:
+        </div>
+
+        <!-- Paystack Bank Details Card -->
+        <div class="paystack-card">
+            <!-- Gradient Layers -->
+            <div class="gradient-layer gradient1 active"></div>
+            <div class="gradient-layer gradient2"></div>
+            <div class="gradient-layer gradient3"></div>
+            <div class="gradient-layer gradient4"></div>
+            <div class="gradient-layer gradient5"></div>
+            <div class="gradient-layer gradient6"></div>
+            <div class="gradient-layer gradient7"></div>
+            <div class="gradient-layer gradient8"></div>
+
+            <div class="content">
+                <div class="bank-details">
+                    <img src="https://static-00.iconduck.com/assets.00/paystack-icon-512x504-w7v8l6as.png" alt="Paystack Icon">
+                    <div class="account-info">
+                        <h3>Account Number</h3>
+                        <p id="accountNumber">9833594879</p>
+                        <button class="copy-btn" onclick="copyAccountNumber()">Copy</button>
+                        <h3>Bank Name</h3>
+                        <p>PAYSTACK</p>
+                        <h3>Account Holder</h3>
+                        <p>SUBVASTELECOM/ FASTPAY FAST PAYMENT</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Notice -->
+        <p class="notice">
+            Funds transferred to these details get credited to your account automatically.
+        </p>
+    </div>
+
+    <script>
+        function copyAccountNumber() {
+            const accountNumber = document.getElementById("accountNumber").textContent;
+            navigator.clipboard.writeText(accountNumber).then(() => {
+                alert("Account number copied!");
+            });
+        }
+
+        // Crossfade Gradient Animation (Starts Immediately)
+        let currentIndex = 0;
+        const gradients = document.querySelectorAll(".gradient-layer");
+
+        function crossFadeGradients() {
+            gradients.forEach((gradient, index) => {
+                gradient.classList.remove("active");
+                if (index === currentIndex) {
+                    gradient.classList.add("active");
+                }
+            });
+
+            currentIndex = (currentIndex + 1) % gradients.length;
+        }
+
+        // Start animation immediately
+        crossFadeGradients();
+        setInterval(crossFadeGradients, 4000); // Change every 4 seconds
+    </script>
+
+</body>
+</html>

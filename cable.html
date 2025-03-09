@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cable Subscription - Jamsub</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.9.6/lottie.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #ddd;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        h2 {
+            color: #6a0dad;
+            margin-bottom: 10px;
+        }
+
+        .animation-box {
+            width: 200px;
+            height: 200px;
+        }
+
+        .info-text {
+            font-size: 16px;
+            font-weight: bold;
+            color: red;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>Opps!</h2>
+    <div class="animation-box" id="animation"></div>
+    <p class="info-text">Currently not available</p>
+
+    <script>
+        // Load Lottie Animation
+        lottie.loadAnimation({
+            container: document.getElementById("animation"),
+            renderer: "svg",
+            loop: true,
+            autoplay: true,
+            path: "/Lottie/Animation - 1740467107076 (1).json" // Using your provided Lottie JSON path
+        });
+    </script>
+
+</body>
+</html>
